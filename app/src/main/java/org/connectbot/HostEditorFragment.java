@@ -251,6 +251,7 @@ public class HostEditorFragment extends Fragment {
 
 		mPasswordContainer = view.findViewById(R.id.password_field_container);
 		mPasswordField = view.findViewById(R.id.password_edit_text);
+		mPasswordField.setText(mHost.getPassword());
 		mPasswordField.addTextChangedListener(new HostTextFieldWatcher(HostDatabase.FIELD_HOST_PASSWORD));
 
 
