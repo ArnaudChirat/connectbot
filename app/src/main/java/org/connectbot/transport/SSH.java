@@ -298,9 +298,16 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 				}
 			} else if (connection.isAuthMethodAvailable(host.getUsername(), AUTH_PASSWORD)) {
 				bridge.outputLine(manager.res.getString(R.string.terminal_auth_pass));
-//				if (host.getPassword() != null && connection.authenticateWithPassword(host.getUsername(), host.getPassword())) {
-//					finishConnection();
-//				}
+				// try password in database before prompt
+				if (host.getPassword() != null) {
+					if (connection.authenticateWithPassword(host.getUsername(), host.getPassword())) {
+						finishConnection();
+						return;
+					} else {
+						bridge.outputLine(manager.res.getString(R.string.terminal_auth_database_pass_fail));
+					}
+				}
+
 				String password = bridge.getPromptHelper().requestStringPrompt(null,
 						manager.res.getString(R.string.prompt_password));
 				if (password != null
